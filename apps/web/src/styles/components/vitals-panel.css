@@ -148,24 +148,15 @@
 /* Warning */
 
 .vital-card__warning {
-  position: absolute;
-  bottom: 4px;
-  left: 8px;
-  right: 8px;
-  padding: 3px 6px;
-  background: rgba(244, 67, 54, 0.12);
-  border: 1px solid rgba(244, 67, 54, 0.35);
-  color: #c62828;
-  font-size: 10px;
-  font-weight: var(--font-weight-bold);
+  margin-top: 6px;
+  padding: 4px;
+  background: rgba(244, 67, 54, 0.1);
+  border: 1px solid rgba(244, 67, 54, 0.3);
+  color: var(--color-trust-disconnected);
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
   border-radius: 3px;
   text-align: center;
-  pointer-events: none;
-}
-
-/* Battery card with warning needs extra bottom padding */
-.vital-card--has-warning {
-  padding-bottom: 28px;
 }
 
 /* Placeholder */

@@ -37,7 +37,7 @@ export function VitalsPanel({ snapshot }: VitalsPanelProps) {
       </div>
 
       {/* Battery */}
-      <div className={`vital-card${snapshot.battery !== null && snapshot.battery < 20 ? ' vital-card--has-warning' : ''}`}>
+      <div className="vital-card">
         <div className="vital-card__header">
           <span className="vital-card__label">Battery</span>
           <span className="vital-card__icon">🔋</span>
