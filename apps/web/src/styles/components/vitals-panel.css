@@ -1,0 +1,194 @@
+/* Vitals Panel Component Styles */
+
+.vitals-panel-content {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-md);
+}
+
+/* Vital Card */
+
+.vital-card {
+  display: flex;
+  flex-direction: column;
+  padding: var(--space-md);
+  background: #fafafa;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  transition: all var(--transition-fast);
+  position: relative;
+}
+
+.vital-card:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.vital-card--full-width {
+  grid-column: 1 / -1;
+}
+
+.vital-card--placeholder {
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  background: #f5f5f5;
+  border: 2px dashed var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.vital-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-sm);
+}
+
+.vital-card__label {
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.vital-card__icon {
+  font-size: 16px;
+}
+
+/* Value */
+
+.vital-card__value {
+  font-size: 32px;
+  font-weight: var(--font-weight-bold);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.vital-card__unit {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Mission Card */
+
+.vital-card__mission-label {
+  font-size: 14px;
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text);
+  margin-bottom: var(--space-sm);
+}
+
+.vital-card__progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #e0e0e0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.vital-card__progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4caf50 0%, #2196f3 100%);
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.vital-card__progress-text {
+  font-size: 12px;
+  color: var(--color-text-muted);
+  text-align: right;
+}
+
+/* Mission State Badge */
+
+.vital-card__mission-state {
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.vital-card__state-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: var(--font-weight-semibold);
+  letter-spacing: 0.5px;
+}
+
+.vital-card__state-badge--executing {
+  background-color: rgba(33, 150, 243, 0.15);
+  color: #2196f3;
+}
+
+.vital-card__state-badge--completed {
+  background-color: rgba(76, 175, 80, 0.15);
+  color: #4caf50;
+}
+
+/* Frozen Indicator */
+
+.vital-card__frozen {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+  background: rgba(255, 152, 0, 0.2);
+  color: var(--color-trust-stale);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+}
+
+/* Warning */
+
+.vital-card__warning {
+  position: absolute;
+  bottom: 4px;
+  left: 8px;
+  right: 8px;
+  padding: 3px 6px;
+  background: rgba(244, 67, 54, 0.12);
+  border: 1px solid rgba(244, 67, 54, 0.35);
+  color: #c62828;
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  border-radius: 3px;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Battery card with warning needs extra bottom padding */
+.vital-card--has-warning {
+  padding-bottom: 28px;
+}
+
+/* Placeholder */
+
+.vital-card__placeholder-text {
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+/* Responsive */
+
+@media (max-width: 1024px) {
+  .vitals-panel-content {
+    grid-template-columns: 1fr;
+  }
+
+  .vital-card--full-width {
+    grid-column: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .vitals-panel-content {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

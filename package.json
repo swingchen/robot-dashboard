@@ -1,0 +1,18 @@
+{
+  "name": "robot-dashboard",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "dev": "concurrently -n web,server -c blue,green \"npm run dev:web\" \"npm run dev:server\"",
+    "dev:web": "npm --prefix apps/web run dev",
+    "dev:server": "npm --prefix apps/server run dev",
+    "build": "npm --prefix apps/web run build && npm --prefix apps/server run build",
+    "install:web": "npm --prefix apps/web install",
+    "install:server": "npm --prefix apps/server install",
+    "install:all": "npm run install:web && npm run install:server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "typescript": "^5.6.3"
+  }
+}

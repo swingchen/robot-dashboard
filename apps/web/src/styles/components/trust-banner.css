@@ -1,0 +1,231 @@
+/* Trust Banner Component Styles */
+
+.trust-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  border-radius: 8px;
+  border: 2px solid;
+  position: relative;
+  transition: all var(--transition-base);
+}
+
+.trust-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: inherit;
+  border-color: inherit;
+}
+
+/* Trust State Variants */
+
+.trust-banner.trust-state--live {
+  background-color: rgba(76, 175, 80, 0.08);
+  border-color: var(--color-trust-live);
+}
+
+.trust-banner.trust-state--stale {
+  background-color: rgba(255, 152, 0, 0.08);
+  border-color: var(--color-trust-stale);
+}
+
+.trust-banner.trust-state--reconnecting {
+  background-color: rgba(33, 150, 243, 0.08);
+  border-color: var(--color-trust-reconnecting);
+  animation: pulse-banner 2s infinite;
+}
+
+.trust-banner.trust-state--disconnected {
+  background-color: rgba(244, 67, 54, 0.08);
+  border-color: var(--color-trust-disconnected);
+  animation: pulse-banner 2s infinite;
+}
+
+.trust-banner.trust-state--no-data-yet {
+  background-color: rgba(204, 204, 204, 0.08);
+  border-color: #999;
+}
+
+@keyframes pulse-banner {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+/* Icon */
+
+.trust-banner__icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.trust-banner.trust-state--live .trust-banner__icon {
+  background-color: rgba(76, 175, 80, 0.2);
+  color: var(--color-trust-live);
+}
+
+.trust-banner.trust-state--stale .trust-banner__icon {
+  background-color: rgba(255, 152, 0, 0.2);
+  color: var(--color-trust-stale);
+}
+
+.trust-banner.trust-state--reconnecting .trust-banner__icon {
+  background-color: rgba(33, 150, 243, 0.2);
+  color: var(--color-trust-reconnecting);
+}
+
+.trust-banner.trust-state--disconnected .trust-banner__icon {
+  background-color: rgba(244, 67, 54, 0.2);
+  color: var(--color-trust-disconnected);
+}
+
+.trust-banner.trust-state--no-data-yet .trust-banner__icon {
+  background-color: rgba(204, 204, 204, 0.2);
+  color: #999;
+}
+
+/* Content */
+
+.trust-banner__content {
+  flex: 1;
+}
+
+.trust-banner__title {
+  font-size: 18px;
+  font-weight: var(--font-weight-bold);
+  margin: 0 0 4px 0;
+}
+
+.trust-banner.trust-state--live .trust-banner__title {
+  color: var(--color-trust-live);
+}
+
+.trust-banner.trust-state--stale .trust-banner__title {
+  color: var(--color-trust-stale);
+}
+
+.trust-banner.trust-state--reconnecting .trust-banner__title {
+  color: var(--color-trust-reconnecting);
+}
+
+.trust-banner.trust-state--disconnected .trust-banner__title {
+  color: var(--color-trust-disconnected);
+}
+
+.trust-banner.trust-state--no-data-yet .trust-banner__title {
+  color: #999;
+}
+
+.trust-banner__description {
+  font-size: 14px;
+  color: var(--color-text-secondary);
+  margin: 0;
+}
+
+.trust-banner.trust-state--live .trust-banner__description {
+  color: #2e7d32;
+}
+
+.trust-banner.trust-state--stale .trust-banner__description {
+  color: #ef6c00;
+}
+
+.trust-banner.trust-state--reconnecting .trust-banner__description {
+  color: #1565c0;
+}
+
+.trust-banner.trust-state--disconnected .trust-banner__description {
+  color: #c62828;
+}
+
+.trust-banner.trust-state--no-data-yet .trust-banner__description {
+  color: #616161;
+}
+
+/* Details */
+
+.trust-banner__details {
+  flex-shrink: 0;
+}
+
+.trust-badge {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: var(--font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.trust-badge--live {
+  background-color: var(--color-trust-live);
+  color: white;
+}
+
+.trust-badge--stale {
+  background-color: var(--color-trust-stale);
+  color: white;
+}
+
+.trust-badge--reconnecting {
+  background-color: var(--color-trust-reconnecting);
+  color: white;
+}
+
+.trust-badge--disconnected {
+  background-color: var(--color-trust-disconnected);
+  color: white;
+}
+
+.trust-badge--no-data-yet {
+  background-color: #ccc;
+  color: #333;
+}
+
+/* Frozen Indicator */
+
+.trust-banner__frozen-indicator {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-md);
+  background: rgba(255, 152, 0, 0.15);
+  border: 1px solid var(--color-trust-stale);
+  color: var(--color-trust-stale);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: var(--font-weight-medium);
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+  .trust-banner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .trust-banner__icon {
+    margin-bottom: 8px;
+  }
+
+  .trust-banner__details {
+    width: 100%;
+  }
+}
