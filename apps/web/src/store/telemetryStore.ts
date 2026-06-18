@@ -6,7 +6,6 @@ import type {
   TelemetryAlarm,
   TrustState,
   UiTelemetrySnapshot,
-  ViewState,
 } from '../types/telemetry';
 import { getReconnectDelay } from '../utils/backoff';
 import { buildUiSnapshot } from '../utils/freshness';
@@ -19,7 +18,6 @@ interface TelemetryStateShape {
   connectionState: ConnectionState;
   freshnessState: FreshnessState;
   trustState: TrustState;
-  viewState: ViewState;
   reconnectAttempt: number;
   nextReconnectDelayMs: number;
   now: number;
@@ -44,7 +42,7 @@ type DerivationSource = Pick<
 
 function buildDerivedState(source: DerivationSource): Pick<
   TelemetryStateShape,
-  'uiSnapshot' | 'freshnessState' | 'trustState' | 'viewState' | 'nextReconnectDelayMs'
+  'uiSnapshot' | 'freshnessState' | 'trustState' | 'nextReconnectDelayMs'
 > {
   const uiSnapshot = buildUiSnapshot({
     rawFrame: source.rawFrame,
@@ -60,7 +58,6 @@ function buildDerivedState(source: DerivationSource): Pick<
     uiSnapshot,
     freshnessState: uiSnapshot.freshnessState,
     trustState: uiSnapshot.trustState,
-    viewState: uiSnapshot.viewState,
     nextReconnectDelayMs: getReconnectDelay(source.reconnectAttempt),
   };
 }

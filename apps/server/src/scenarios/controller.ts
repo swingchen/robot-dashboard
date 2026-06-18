@@ -1,7 +1,6 @@
-export const scenarioNames = ['live', 'stale', 'drop', 'manual-disconnect', 'alarm'] as const;
+export const scenarioNames = ['live', 'stale', 'drop', 'manual-disconnect'] as const;
 
 export type ScenarioName = (typeof scenarioNames)[number];
-export type AlarmSeverity = 'info' | 'warning' | 'critical';
 
 export interface ScenarioSnapshot {
   current: ScenarioName;
@@ -25,8 +24,6 @@ export function parseScenarioName(value: string | undefined): ScenarioName {
 export class ScenarioController {
   private snapshot: ScenarioSnapshot;
 
-  private alarmSeverity: AlarmSeverity = 'critical';
-
   private readonly listeners = new Set<ScenarioListener>();
 
   constructor(initialScenario: ScenarioName = 'live') {
@@ -41,8 +38,7 @@ export class ScenarioController {
   }
 
   setScenario(nextScenario: ScenarioName): ScenarioSnapshot {
-    // alarm 允许重复触发，以支持手动切换告警级别
-    if (nextScenario === this.snapshot.current && nextScenario !== 'alarm') {
+    if (nextScenario === this.snapshot.current) {
       return this.snapshot;
     }
 
@@ -69,18 +65,6 @@ export class ScenarioController {
   }
 
   shouldStream(): boolean {
-    return this.snapshot.current === 'live' || this.snapshot.current === 'alarm';
-  }
-
-  shouldInjectAlarm(): boolean {
-    return this.snapshot.current === 'alarm';
-  }
-
-  getAlarmSeverity(): AlarmSeverity {
-    return this.alarmSeverity;
-  }
-
-  setAlarmSeverity(severity: AlarmSeverity): void {
-    this.alarmSeverity = severity;
+    return this.snapshot.current === 'live';
   }
 }

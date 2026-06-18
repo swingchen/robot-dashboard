@@ -18,7 +18,7 @@ export function ControlPanel({ onConnect, onDisconnect }: ControlPanelProps) {
   const [isPaused, setIsPaused] = useState(false);
   const [isPausedConfirmed, setIsPausedConfirmed] = useState(false);
 
-  const setScenario = (scenario: 'stale' | 'alarm' | 'drop'): Promise<ScenarioControlResponse> =>
+  const setScenario = (scenario: 'stale' | 'drop'): Promise<ScenarioControlResponse> =>
     apiPost<ScenarioControlResponse>('/scenario', { scenario });
 
   const resetScenario = (): Promise<ScenarioControlResponse> =>
@@ -103,9 +103,6 @@ export function ControlPanel({ onConnect, onDisconnect }: ControlPanelProps) {
               </button>
               <button className="demo-btn" onClick={() => { void runScenarioAction(async () => { await setScenario('drop'); }); }}>
                 ④ Drop
-              </button>
-              <button className="demo-btn demo-btn--alarm" onClick={() => { void runScenarioAction(async () => { await setScenario('alarm'); }); }}>
-                ⑥ Alarm
               </button>
             </div>
             {controlError && <div className="demo-controls__error">{controlError}</div>}

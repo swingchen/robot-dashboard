@@ -1,10 +1,8 @@
 import { Router } from 'express';
 import type { TelemetryBroadcaster } from '../telemetry/broadcaster.js';
-import type { AutoFaultScheduler } from '../scenarios/autoFaultScheduler.js';
 import {
   isScenarioName,
   scenarioNames,
-  type AlarmSeverity,
   type ScenarioController,
   type ScenarioName,
 } from '../scenarios/controller.js';
@@ -13,14 +11,9 @@ interface ScenarioRequestBody {
   scenario?: string;
 }
 
-const manualAlarmCycle: AlarmSeverity[] = ['info', 'warning', 'critical'];
-let manualAlarmIndex = 0;
-
 export function createScenarioControlRouter(
   controller: ScenarioController,
   broadcaster: TelemetryBroadcaster,
-  autoFaultScheduler: AutoFaultScheduler,
-  autoFaultsEnabled: boolean,
 ): Router {
   const router = Router();
 
@@ -40,13 +33,6 @@ export function createScenarioControlRouter(
         availableScenarios: scenarioNames,
       });
       return;
-    }
-
-    // 手动点击 Alarm 时轮转告警级别: info → warning → critical → info
-    if (scenario === 'alarm') {
-      const severity = manualAlarmCycle[manualAlarmIndex];
-      controller.setAlarmSeverity(severity);
-      manualAlarmIndex = (manualAlarmIndex + 1) % manualAlarmCycle.length;
     }
 
     const snapshot = controller.setScenario(scenario satisfies ScenarioName ? scenario : 'live');
@@ -87,48 +73,6 @@ export function createScenarioControlRouter(
   router.get('/stream/status', (_request, response) => {
     response.json({
       isPaused: broadcaster.isPausedNow(),
-      timestamp: Date.now(),
-    });
-  });
-
-  router.get('/auto-faults/status', (_request, response) => {
-    response.json({
-      enabled: autoFaultsEnabled,
-      isRunning: autoFaultsEnabled && autoFaultScheduler.isRunning(),
-      timestamp: Date.now(),
-    });
-  });
-
-  router.post('/auto-faults/pause', (_request, response) => {
-    if (!autoFaultsEnabled) {
-      response.status(400).json({
-        error: 'auto faults are disabled by server configuration',
-        enabled: false,
-      });
-      return;
-    }
-
-    autoFaultScheduler.stop();
-    response.json({
-      status: 'paused',
-      isRunning: false,
-      timestamp: Date.now(),
-    });
-  });
-
-  router.post('/auto-faults/resume', (_request, response) => {
-    if (!autoFaultsEnabled) {
-      response.status(400).json({
-        error: 'auto faults are disabled by server configuration',
-        enabled: false,
-      });
-      return;
-    }
-
-    autoFaultScheduler.start();
-    response.json({
-      status: 'running',
-      isRunning: true,
       timestamp: Date.now(),
     });
   });

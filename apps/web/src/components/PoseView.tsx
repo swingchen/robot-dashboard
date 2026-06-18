@@ -44,6 +44,7 @@ export function PoseView({ pose, isFrozen }: PoseViewProps) {
           width="100%"
           height="100%"
           viewBox={`0 0 ${svgWidth} ${svgHeight}`}
+          preserveAspectRatio="none"
           className={`pose-canvas ${isFrozen ? 'pose-canvas--frozen' : ''}`}
         >
           {/* Grid background */}
@@ -131,26 +132,26 @@ export function PoseView({ pose, isFrozen }: PoseViewProps) {
         </svg>
       </div>
 
-      {/* Pose info display */}
-      {pose && (
-        <div className="pose-info">
-          <div className="pose-info-item">
-            <span className="pose-info-label">X:</span>
-            <span className="pose-info-value">{pose.x.toFixed(2)} m</span>
-          </div>
-          <div className="pose-info-item">
-            <span className="pose-info-label">Y:</span>
-            <span className="pose-info-value">{pose.y.toFixed(2)} m</span>
-          </div>
-          <div className="pose-info-item">
-            <span className="pose-info-label">Heading:</span>
-            <span className="pose-info-value">{pose.headingDeg.toFixed(0)}°</span>
-          </div>
+      {/* Pose info display — always reserved to prevent map from resizing */}
+      <div className={`pose-info${!pose ? ' pose-info--empty' : ''}`}>
+        <div className="pose-info-item">
+          <span className="pose-info-label">X:</span>
+          <span className="pose-info-value">{pose ? `${pose.x.toFixed(2)} m` : '—'}</span>
+        </div>
+        <div className="pose-info-item">
+          <span className="pose-info-label">Y:</span>
+          <span className="pose-info-value">{pose ? `${pose.y.toFixed(2)} m` : '—'}</span>
+        </div>
+        <div className="pose-info-item">
+          <span className="pose-info-label">Heading:</span>
+          <span className="pose-info-value">{pose ? `${pose.headingDeg.toFixed(0)}°` : '—'}</span>
+        </div>
+        {pose && (
           <div className={`pose-info-frozen${!isFrozen ? ' pose-info-frozen--hidden' : ''}`}>
             ⚠ Last Known Position
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

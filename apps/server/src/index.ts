@@ -5,13 +5,11 @@ import { WebSocketServer } from 'ws';
 import { ConnectionManager } from './connection/manager.js';
 import { createScenarioControlRouter } from './routes/scenario-control.js';
 import { applyScenario } from './scenarios/applyScenario.js';
-import { AutoFaultScheduler } from './scenarios/autoFaultScheduler.js';
 import { ScenarioController, parseScenarioName } from './scenarios/controller.js';
 import { TelemetryBroadcaster } from './telemetry/broadcaster.js';
 import { TelemetryGenerator } from './telemetry/generator.js';
 
 const STREAM_HZ = 15;
-const AUTO_FAULTS_ENABLED = process.env.AUTO_FAULTS_ENABLED !== 'false';
 const app = express();
 const port = Number(process.env.PORT ?? 3001);
 const initialScenario = parseScenarioName(process.env.BOOT_SCENARIO);
@@ -24,9 +22,6 @@ const telemetryBroadcaster = new TelemetryBroadcaster({
   generator: telemetryGenerator,
   streamHz: STREAM_HZ,
 });
-const autoFaultScheduler = new AutoFaultScheduler({
-  controller: scenarioController,
-});
 
 app.use(cors());
 app.use(express.json());
@@ -35,8 +30,6 @@ app.use(
   createScenarioControlRouter(
     scenarioController,
     telemetryBroadcaster,
-    autoFaultScheduler,
-    AUTO_FAULTS_ENABLED,
   ),
 );
 
@@ -46,7 +39,6 @@ app.get('/health', (_request, response) => {
     scenario: scenarioController.getSnapshot().current,
     clients: connectionManager.getClientCount(),
     streamHz: STREAM_HZ,
-    autoFaultsEnabled: AUTO_FAULTS_ENABLED,
   });
 });
 
@@ -77,12 +69,7 @@ scenarioController.subscribe((next, previous) => {
 
 telemetryBroadcaster.start();
 
-if (AUTO_FAULTS_ENABLED) {
-  autoFaultScheduler.start();
-}
-
 const shutdown = () => {
-  autoFaultScheduler.stop();
   telemetryBroadcaster.stop();
   wsServer.close();
   server.close(() => {
@@ -97,5 +84,4 @@ server.listen(port, () => {
   console.log(`Telemetry server listening on http://localhost:${port}`);
   console.log(`Telemetry websocket listening on ws://localhost:${port}/telemetry`);
   console.log(`Initial scenario: ${initialScenario}`);
-  console.log(`Auto faults: ${AUTO_FAULTS_ENABLED ? 'enabled' : 'disabled'}`);
 });

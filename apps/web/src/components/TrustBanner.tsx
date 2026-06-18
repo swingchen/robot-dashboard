@@ -1,5 +1,4 @@
 import { UiTelemetrySnapshot } from '../types/telemetry';
-import '../styles/components/trust-banner.css';
 
 interface TrustBannerProps {
   snapshot: UiTelemetrySnapshot;

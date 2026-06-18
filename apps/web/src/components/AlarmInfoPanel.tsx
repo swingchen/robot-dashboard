@@ -115,12 +115,11 @@ export function AlarmInfoPanel({ alarms }: AlarmInfoPanelProps) {
   return (
     <>
       <div
-        className={`panel alarms-left${criticalAlarms.length > 0 ? ' alarms-left--has-critical' : ''}`}
+        className="panel alarms-left"
         aria-label="Alarm info panel"
       >
         <div className="panel__header">
           <div className="panel__title">
-            <span className="panel__title-icon">🔔</span>
             Alarm Info
             {visibleAlarms.length > 0 && (
               <span
@@ -197,7 +196,7 @@ export function AlarmInfoPanel({ alarms }: AlarmInfoPanelProps) {
                         {alarm.severity}
                       </div>
                       {isConfirming ? (
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', width: '100%' }}>
+                        <div className="alarm-item__confirm-actions">
                           <button
                             className="alarm-ack-btn alarm-ack-btn--confirm"
                             onClick={() => acknowledgeAlarm(alarm)}

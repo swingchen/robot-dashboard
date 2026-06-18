@@ -1,13 +1,122 @@
-/* Alarm Info Panel — additional styles (base alarm classes are in layout.css) */
+/* ================================================================
+   Alarm Info Panel — ALL alarm component styles
+   ================================================================ */
 
-/* Alarm item internal structure */
+/* ---- Alarm Container ---- */
+
+.alarms-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.alarms-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  max-height: 260px;
+  overflow: auto;
+}
+
+/* ---- Empty State ---- */
+
+.alarms-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  color: var(--color-text-tertiary);
+  padding: var(--space-lg) var(--space-md);
+}
+
+.alarms-empty__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(76, 175, 80, 0.12);
+  color: #4caf50;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* ---- Alarm Count Badge ---- */
+
+.alarm-count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  height: 22px;
+  margin-left: 8px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #ff9800;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.alarm-count-badge--critical {
+  background: #f44336;
+}
+
+/* ---- Alarm Item ---- */
+
+.alarm-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  border-left: 4px solid var(--color-severity-warning);
+  background-color: var(--color-bg-tertiary);
+  border-radius: var(--radius-md);
+  transition: background-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.alarm-item:hover {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.alarm-item--critical {
+  border-left-color: var(--color-severity-error);
+  background-color: rgba(244, 67, 54, 0.06);
+}
+
+.alarm-item--warning {
+  border-left-color: var(--color-severity-warning);
+  background-color: rgba(255, 152, 0, 0.05);
+}
+
+.alarm-item--info {
+  border-left-color: var(--color-severity-info);
+}
+
+.alarm-item--pulse {
+  background-color: rgba(244, 67, 54, 0.08);
+}
+
+/* ---- Alarm Item Children ---- */
+
 .alarm-item__icon {
-  font-size: var(--font-size-lg);
   flex-shrink: 0;
-  margin-top: 2px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  margin-top: 1px;
 }
 
 .alarm-item__content {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
   flex: 1;
   min-width: 0;
 }
@@ -15,48 +124,29 @@
 .alarm-item__header-row {
   display: flex;
   align-items: center;
-  gap: var(--space-sm);
-  margin-bottom: var(--space-xs);
+  justify-content: flex-start;
+  gap: 8px;
 }
 
 .alarm-item__code {
-  font-weight: var(--font-weight-bold);
   font-size: var(--font-size-sm);
-  color: var(--color-text-primary);
-}
-
-.alarm-item__severity {
-  font-size: var(--font-size-xs);
-  padding: 1px 6px;
-  border-radius: var(--radius-sm);
-  text-transform: uppercase;
-  font-weight: var(--font-weight-medium);
-}
-
-.alarm-item__severity--info {
-  background-color: rgba(33, 150, 243, 0.12);
-  color: var(--color-severity-info);
-}
-
-.alarm-item__severity--warning {
-  background-color: rgba(255, 152, 0, 0.15);
-  color: var(--color-severity-warning);
-}
-
-.alarm-item__severity--critical {
-  background-color: rgba(244, 67, 54, 0.15);
-  color: var(--color-severity-error);
+  font-weight: var(--font-weight-bold);
+  font-family: 'SF Mono', 'Cascadia Code', 'Fira Code', monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .alarm-item__message {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
-  margin-bottom: var(--space-xs);
+  line-height: 1.4;
 }
 
 .alarm-item__time {
-  font-size: var(--font-size-xs);
+  font-size: 11px;
   color: var(--color-text-tertiary);
+  font-variant-numeric: tabular-nums;
 }
 
 .alarm-item__actions {
@@ -65,98 +155,101 @@
   gap: var(--space-sm);
 }
 
-/* Acknowledge buttons */
-.alarm-ack-btn {
-  padding: var(--space-xs) var(--space-sm);
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  border: none;
-  border-radius: var(--radius-sm);
-  cursor: pointer;
-  flex-shrink: 0;
-}
-
-.alarm-ack-btn--all {
-  background-color: var(--color-bg-tertiary);
-  color: var(--color-text-secondary);
-}
-
-.alarm-ack-btn--all:hover {
-  background-color: var(--color-border);
-  color: var(--color-text-primary);
-}
-
-.alarm-ack-btn--info {
-  background-color: rgba(33, 150, 243, 0.08);
-  color: var(--color-severity-info);
-}
-
-.alarm-ack-btn--info:hover {
-  background-color: rgba(33, 150, 243, 0.16);
-}
-
-.alarm-ack-btn--warning {
-  background-color: rgba(255, 152, 0, 0.1);
-  color: var(--color-severity-warning);
-}
-
-.alarm-ack-btn--warning:hover {
-  background-color: rgba(255, 152, 0, 0.2);
-}
-
-.alarm-ack-btn--critical {
-  background-color: rgba(244, 67, 54, 0.1);
-  color: var(--color-severity-error);
-}
-
-.alarm-ack-btn--critical:hover {
-  background-color: rgba(244, 67, 54, 0.2);
-}
-
-/* Critical alarm overlay */
-.alarm-overlay {
-  position: fixed;
-  inset: 0;
-  z-index: var(--z-index-modal);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(4px);
-}
-
-.alarm-overlay__card {
-  width: 90%;
-  max-width: 480px;
-  max-height: 80vh;
-  overflow-y: auto;
-  padding: var(--space-lg);
-  background-color: var(--color-bg-primary);
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-lg);
-}
-
-.alarm-overlay__card--critical {
-  border: 2px solid var(--color-severity-error);
-}
-
-.alarm-overlay__title {
-  font-size: var(--font-size-lg);
-  font-weight: var(--font-weight-bold);
-  margin-bottom: var(--space-md);
-}
-
-.alarm-overlay__title--critical {
-  color: var(--color-severity-error);
-}
-
-.alarm-overlay__list {
+.alarm-item__confirm-actions {
   display: flex;
   flex-direction: column;
   gap: var(--space-sm);
+  width: 100%;
 }
 
-/* Large overlay ack buttons */
+/* ---- Severity Badge ---- */
+
+.alarm-item__severity {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 10px;
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.alarm-item__severity--critical {
+  background-color: rgba(244, 67, 54, 0.15);
+  color: var(--color-severity-error-dark);
+}
+
+.alarm-item__severity--warning {
+  background-color: rgba(255, 152, 0, 0.15);
+  color: var(--color-severity-warning-dark);
+}
+
+.alarm-item__severity--info {
+  background-color: rgba(33, 150, 243, 0.12);
+  color: var(--color-severity-info-dark);
+}
+
+/* ---- Acknowledge Buttons ---- */
+
+.alarm-ack-btn {
+  flex-shrink: 0;
+  border: none;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: var(--font-weight-bold);
+  letter-spacing: 0.03em;
+  padding: 5px 14px;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.08);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast);
+  align-self: center;
+}
+
+.alarm-ack-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: inset 0 0 0 1px rgba(15, 23, 42, 0.08), 0 4px 10px rgba(15, 23, 42, 0.14);
+}
+
+.alarm-ack-btn:active {
+  transform: translateY(0);
+}
+
+.alarm-ack-btn--all {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.alarm-ack-btn--all:hover {
+  background: #d97706;
+}
+
+.alarm-ack-btn--all:active {
+  background-color: #b45309;
+}
+
+.alarm-ack-btn--warning {
+  background: #fff3d7;
+  color: var(--color-severity-warning-dark);
+}
+
+.alarm-ack-btn--warning:hover {
+  background: #ffe0a3;
+}
+
+.alarm-ack-btn--critical {
+  background: #c62828;
+  color: #fff;
+}
+
+.alarm-ack-btn--critical:hover {
+  background: #d32f2f;
+}
+
+/* ---- Overlay Ack Buttons (large) ---- */
+
 .alarm-ack-btn--large {
   padding: var(--space-sm) var(--space-lg);
   font-size: var(--font-size-base);
@@ -182,4 +275,50 @@
   color: var(--color-text-secondary);
   padding: var(--space-sm) var(--space-md);
   font-size: var(--font-size-sm);
+}
+
+/* ---- Critical Alarm Overlay ---- */
+
+.alarm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: calc(var(--z-index-modal) + 10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-lg);
+  background-color: var(--color-overlay-backdrop);
+  pointer-events: auto;
+}
+
+.alarm-overlay__card {
+  width: min(720px, 92vw);
+  max-height: min(70vh, 560px);
+  overflow: auto;
+  border: 2px solid var(--color-severity-error);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-overlay-card-bg);
+  box-shadow: var(--color-overlay-shadow);
+  padding: var(--space-lg);
+}
+
+.alarm-overlay__card--critical {
+  border-color: var(--color-severity-error);
+}
+
+.alarm-overlay__title {
+  margin-bottom: var(--space-md);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-severity-error);
+}
+
+.alarm-overlay__title--critical {
+  color: var(--color-severity-error);
+}
+
+.alarm-overlay__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
 }

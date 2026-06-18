@@ -1,12 +1,10 @@
 import { useEffect, useRef } from 'react';
 import { TelemetryMessageRouter, UI_COMMIT_INTERVAL_MS } from './services/messageRouter';
 import { TelemetryWebSocketClient, getTelemetryWebSocketUrl } from './services/websocketClient';
-import { selectUiSnapshot } from './store/selectors';
 import { useTelemetryStore } from './store/telemetryStore';
 import './styles/tokens.css';
 import './styles/base.css';
 import './styles/layout.css';
-import './styles/state.css';
 import './styles/components/trust-banner.css';
 import './styles/components/vitals-panel.css';
 import './styles/components/pose-view.css';
@@ -19,7 +17,7 @@ import { VitalsPanel } from './components/VitalsPanel';
 import { ControlPanel } from './components/ControlPanel';
 
 export default function App() {
-  const snapshot = useTelemetryStore(selectUiSnapshot);
+  const snapshot = useTelemetryStore((state) => state.uiSnapshot);
   const receiveFrame = useTelemetryStore((state) => state.receiveFrame);
   const syncClock = useTelemetryStore((state) => state.syncClock);
   const markConnecting = useTelemetryStore((state) => state.markConnecting);
@@ -34,11 +32,10 @@ export default function App() {
   const apiBase = `//${window.location.hostname}:3001/api`;
 
   const handleConnect = async (): Promise<void> => {
-    // Pause auto-fault scheduler and reset to live scenario
+    // Reset server to live scenario and ensure stream is running
     try {
-      const r1 = await fetch(`${apiBase}/auto-faults/pause`, { method: 'POST' });
-      const r2 = await fetch(`${apiBase}/scenario/reset`, { method: 'POST' });
-      console.log('[connect] auto-faults paused:', r1.ok, 'scenario reset:', r2.ok);
+      await fetch(`${apiBase}/scenario/reset`, { method: 'POST' });
+      await fetch(`${apiBase}/stream/resume`, { method: 'POST' });
     } catch (err) {
       console.warn('[connect] API call failed:', err);
     }
@@ -98,11 +95,6 @@ export default function App() {
       }
     });
 
-    // Auto-connect on page load — reset server to live + ensure auto-faults running
-    fetch(`${apiBase}/scenario/reset`, { method: 'POST' }).catch(() => {});
-    fetch(`${apiBase}/auto-faults/resume`, { method: 'POST' }).catch(() => {});
-    client.connect();
-
     const clockTimer = window.setInterval(() => {
       syncClock(Date.now());
     }, 250);
@@ -136,16 +128,17 @@ export default function App() {
             />
           </div>
 
-          {/* Second Row: Alarm Info (Left, priority), Vitals (Left), PoseView (Center), Controls (Right) */}
-          <AlarmInfoPanel alarms={snapshot.alarms} />
+          {/* Left Column: Alarm Info + Vitals, 1:1 */}
+          <div className="left-column">
+            <AlarmInfoPanel alarms={snapshot.alarms} />
 
-          {/* Vitals Panel - Left */}
-          <div className="panel vitals-left">
-            <div className="panel__header">
-              <div className="panel__title">Vehicle Vitals</div>
-            </div>
-            <div className="panel__content">
-              <VitalsPanel snapshot={snapshot} />
+            <div className="panel vitals-left">
+              <div className="panel__header">
+                <div className="panel__title">Vehicle Vitals</div>
+              </div>
+              <div className="panel__content">
+                <VitalsPanel snapshot={snapshot} />
+              </div>
             </div>
           </div>
 

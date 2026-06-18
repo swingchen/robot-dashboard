@@ -1,8 +1,6 @@
 import type { ConnectionManager } from '../connection/manager.js';
 import type { ScenarioSnapshot } from './controller.js';
-
-const MANUAL_DISCONNECT_CODE = 4000;
-const MANUAL_DISCONNECT_REASON = 'manual_disconnect';
+import { MANUAL_DISCONNECT_CODE, MANUAL_DISCONNECT_REASON } from '../connection/constants.js';
 
 export function applyScenario(
   next: ScenarioSnapshot,

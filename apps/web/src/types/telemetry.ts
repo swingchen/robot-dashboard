@@ -36,8 +36,6 @@ export type FreshnessState = 'no-data-yet' | 'fresh' | 'stale';
 
 export type TrustState = 'no-data-yet' | 'live' | 'stale' | 'reconnecting' | 'disconnected';
 
-export type ViewState = TrustState;
-
 export interface UiTelemetrySnapshot {
   ts: number | null;
   pose: Pose | null;
@@ -48,7 +46,6 @@ export interface UiTelemetrySnapshot {
   connectionState: ConnectionState;
   freshnessState: FreshnessState;
   trustState: TrustState;
-  viewState: ViewState;
   ageMs: number | null;
   hasData: boolean;
   isFrozen: boolean;

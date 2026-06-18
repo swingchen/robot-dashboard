@@ -60,7 +60,11 @@ export function VitalsPanel({ snapshot }: VitalsPanelProps) {
         <div className="vital-card vital-card--full-width">
           <div className="vital-card__header">
             <span className="vital-card__label">Mission</span>
-            <span className="vital-card__icon">🎯</span>
+            <span className={`vital-card__state-badge vital-card__state-badge--${snapshot.mission.state.toLowerCase()}`}>
+              {snapshot.mission.state === 'EXECUTING' ? '⏳' : '✓'}
+              {' '}
+              {snapshot.mission.state}
+            </span>
           </div>
           <div className="vital-card__mission-label">{snapshot.mission.label}</div>
           <div className="vital-card__progress-bar">
@@ -71,13 +75,6 @@ export function VitalsPanel({ snapshot }: VitalsPanelProps) {
           </div>
           <div className="vital-card__progress-text">
             {snapshot.mission.progress.toFixed(0)}% complete
-          </div>
-          <div className="vital-card__mission-state">
-            <span className={`vital-card__state-badge vital-card__state-badge--${snapshot.mission.state.toLowerCase()}`}>
-              {snapshot.mission.state === 'EXECUTING' ? '⏳' : '✓'}
-              {' '}
-              {snapshot.mission.state}
-            </span>
           </div>
           {snapshot.isFrozen && <div className="vital-card__frozen">frozen</div>}
         </div>

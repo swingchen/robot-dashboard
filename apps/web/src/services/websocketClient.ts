@@ -93,18 +93,6 @@ export class TelemetryWebSocketClient {
     this.socket.close(1000, 'Client disconnect');
   }
 
-  simulateReconnectFlow(): void {
-    this.manualClose = false;
-    this.clearReconnectTimer();
-
-    if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
-      this.socket.close(4001, 'Simulated reconnect flow');
-      return;
-    }
-
-    this.scheduleReconnect(Date.now());
-  }
-
   private readonly handleOpen = (): void => {
     // Do NOT reset reconnectAttempt here — wait for first message
     // to prove the data path is truly restored.

@@ -5,7 +5,6 @@ import type {
   TelemetryAlarm,
   TrustState,
   UiTelemetrySnapshot,
-  ViewState,
 } from '../types/telemetry';
 
 export const STALE_THRESHOLD_MS = 2500;
@@ -39,10 +38,6 @@ export function deriveTrustState(
   }
 
   return freshnessState === 'stale' ? 'stale' : 'live';
-}
-
-export function deriveViewState(trustState: TrustState): ViewState {
-  return trustState;
 }
 
 interface BuildUiSnapshotOptions {
@@ -79,7 +74,6 @@ export function buildUiSnapshot({
     connectionState,
     freshnessState,
     trustState,
-    viewState: deriveViewState(trustState),
     ageMs: lastReceiveTime === null ? null : Math.max(0, now - lastReceiveTime),
     hasData: rawFrame !== null,
     isFrozen: rawFrame !== null && trustState !== 'live',

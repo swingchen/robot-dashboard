@@ -67,14 +67,6 @@
   cursor: not-allowed;
 }
 
-.demo-btn--alarm {
-  background-color: var(--color-severity-warning);
-}
-
-.demo-btn--alarm:hover:not(:disabled) {
-  background-color: #f57c00;
-}
-
 @media (max-width: 768px) {
   .demo-controls__buttons {
     flex-direction: row;

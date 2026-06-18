@@ -7,8 +7,10 @@
   --color-bg-tertiary: #eeeeee;
 
   --color-text-primary: #212121;
+  --color-text: #212121;
   --color-text-secondary: #666666;
   --color-text-tertiary: #999999;
+  --color-text-muted: #999999;
 
   --color-border: #dddddd;
   --color-border-light: #eeeeee;
@@ -22,8 +24,16 @@
 
   /* Severity Colors */
   --color-severity-error: #f44336;
+  --color-severity-error-dark: #c62828;
   --color-severity-warning: #ff9800;
+  --color-severity-warning-dark: #8a4b00;
   --color-severity-info: #2196f3;
+  --color-severity-info-dark: #1565c0;
+
+  /* Overlay */
+  --color-overlay-backdrop: rgba(16, 20, 28, 0.42);
+  --color-overlay-card-bg: rgba(255, 255, 255, 0.96);
+  --color-overlay-shadow: 0 20px 56px rgba(0, 0, 0, 0.35);
 
   /* Spacing */
   --space-xs: 4px;
@@ -43,6 +53,7 @@
 
   --font-weight-normal: 400;
   --font-weight-medium: 500;
+  --font-weight-semibold: 600;
   --font-weight-bold: 700;
 
   --line-height-tight: 1.2;

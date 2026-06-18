@@ -49,7 +49,7 @@
 
 .trust-banner.trust-state--no-data-yet {
   background-color: rgba(204, 204, 204, 0.08);
-  border-color: #999;
+  border-color: var(--color-text-tertiary);
 }
 
 @keyframes pulse-banner {
@@ -73,6 +73,10 @@
   border-radius: 50%;
   font-size: 24px;
   font-weight: bold;
+}
+
+.trust-banner__icon-symbol {
+  line-height: 1;
 }
 
 .trust-banner.trust-state--live .trust-banner__icon {
@@ -104,10 +108,11 @@
 
 .trust-banner__content {
   flex: 1;
+  text-align: center;
 }
 
 .trust-banner__title {
-  font-size: 18px;
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-bold);
   margin: 0 0 4px 0;
 }
@@ -129,11 +134,11 @@
 }
 
 .trust-banner.trust-state--no-data-yet .trust-banner__title {
-  color: #999;
+  color: var(--color-text-tertiary);
 }
 
 .trust-banner__description {
-  font-size: 14px;
+  font-size: var(--font-size-sm);
   color: var(--color-text-secondary);
   margin: 0;
 }
@@ -147,11 +152,11 @@
 }
 
 .trust-banner.trust-state--reconnecting .trust-banner__description {
-  color: #1565c0;
+  color: var(--color-severity-info-dark);
 }
 
 .trust-banner.trust-state--disconnected .trust-banner__description {
-  color: #c62828;
+  color: var(--color-severity-error-dark);
 }
 
 .trust-banner.trust-state--no-data-yet .trust-banner__description {
@@ -168,7 +173,7 @@
   display: inline-block;
   padding: var(--space-xs) var(--space-md);
   border-radius: 20px;
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: var(--font-weight-medium);
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -195,8 +200,8 @@
 }
 
 .trust-badge--no-data-yet {
-  background-color: #ccc;
-  color: #333;
+  background-color: var(--color-trust-no-data);
+  color: var(--color-text-primary);
 }
 
 /* Frozen Indicator */
