@@ -42,7 +42,7 @@ npm run dev:web
 npm run dev:server
 ```
 
-The frontend auto-connects on page load.
+Click **① Connect** in the Control Panel to connect.
 
 ## Build
 
@@ -58,7 +58,7 @@ npm run build
 
 ```bash
 npm --prefix apps/web test
-# → 19 tests: backoff (reconnect delay) + freshness (trust-state derivation)
+# → 25 tests: backoff (reconnect delay) + freshness (trust-state derivation) + snapshot builder
 ```
 
 ## Deploy
@@ -128,3 +128,12 @@ curl -s http://localhost:3001/api/stream/status
 ```
 
 UI shows `requesting...` during the HTTP round-trip, then `✓ Paused` / `✓ Running` on confirmation.
+
+---
+
+## Bonus: Run Tests
+
+```bash
+npm --prefix apps/web test
+# → 25 tests: backoff (reconnect delay) + freshness (trust-state derivation) + snapshot builder
+```
