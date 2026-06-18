@@ -63,13 +63,27 @@ npm --prefix apps/web test
 
 ## Deploy
 
-```bash
-# Backend
-cd apps/server
-NODE_ENV=production PORT=3001 node dist/index.js
+Jenkins pipeline on the target server — pull, build, and deploy in one step:
 
-# Frontend (any static host)
-npx serve apps/web/dist -l 5173
+```bash
+# 1. Pull latest code
+git pull origin master
+
+# 2. Install dependencies
+npm install && npm run install:all
+
+# 3. Build
+npm run build
+# → apps/web/dist/     — static bundle
+# → apps/server/dist/  — compiled JS
+
+# 4. Deploy frontend — static files to nginx
+cp -r apps/web/dist/* /var/www/robot-dashboard/
+
+# 5. Deploy backend — compiled JS to pm2
+cp -r apps/server/dist/* /opt/robot-server/
+cd /opt/robot-server
+NODE_ENV=production PORT=3001 pm2 restart robot-server --update-env
 ```
 
 Optional env vars:
@@ -95,7 +109,7 @@ Optional env vars:
 ### Frontend
 
 - [ ] `npm run dev:web` → starts on port 5173
-- [ ] Page loads, TrustBanner visible, auto-connects → `no-data-yet` → `live`
+- [ ] Page loads, TrustBanner visible, shows `no-data-yet` (click ① Connect to go live)
 
 ### Full Integration
 
@@ -132,6 +146,8 @@ UI shows `requesting...` during the HTTP round-trip, then `✓ Paused` / `✓ Ru
 ---
 
 ## Bonus: Run Tests
+
+Basic tests for the tricky parts: reconnection logic, stale detection, and stream-to-state handling.
 
 ```bash
 npm --prefix apps/web test
