@@ -76,7 +76,8 @@ Optional env vars:
 
 - `PORT` — server port (default `3001`)
 - `BOOT_SCENARIO=live` — initial scenario
-- `VITE_TELEMETRY_WS_URL=ws://<host>:3001/telemetry` — for split-host deploys
+- `VITE_TELEMETRY_WS_URL=ws://<host>:3001/telemetry` — WebSocket URL for split-host deploys
+- `VITE_API_BASE_URL=//<host>:3001/api` — API base URL for split-host deploys
 
 ## Verification Checklist
 
