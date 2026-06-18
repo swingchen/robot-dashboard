@@ -150,7 +150,7 @@ export class TelemetryWebSocketClient {
     });
   };
 
-  private scheduleReconnect(now: number, immediate = false): void {
+  private scheduleReconnect(now: number): void {
     if (this.reconnectTimer !== null) {
       return;
     }
@@ -165,7 +165,7 @@ export class TelemetryWebSocketClient {
     }
 
     const attempt = this.reconnectAttempt + 1;
-    const delayMs = immediate ? 0 : getReconnectDelay(this.reconnectAttempt);
+    const delayMs = getReconnectDelay(this.reconnectAttempt);
 
     this.reconnectAttempt = attempt;
     this.emit({
