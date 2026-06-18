@@ -31,22 +31,23 @@ export class TelemetryGenerator {
     const deltaMs = Math.max(now - this.state.lastTimestamp, 1000 / 15);
     const deltaSeconds = deltaMs / 1000;
 
-    // Vehicle follows a circular path in the viewport
-    // Circle with radius ~200m, completes one lap every ~60 seconds
-    const angle = (now / 20000) * Math.PI * 2;
-    const radius = 200;
-    
-    this.state.x = Math.cos(angle) * radius;
-    this.state.y = Math.sin(angle) * radius;
+    // Back-and-forth patrol along X axis (warehouse aisle simulation)
+    // Period ~16 seconds for a full round trip (left → right → left)
+    const periodMs = 16000;
+    const phase = ((now % periodMs) / periodMs) * Math.PI * 2; // 0 → 2π
+    const rawX = Math.sin(phase) * 180; // -180m to +180m
 
-    // Heading always points in the direction of motion (tangent to circle)
-    // Calculate heading by looking at next position
-    const nextAngle = ((now + 400) / 20000) * Math.PI * 2;
-    const nextX = Math.cos(nextAngle) * radius;
-    const nextY = Math.sin(nextAngle) * radius;
-    const dx = nextX - this.state.x;
-    const dy = nextY - this.state.y;
-    this.state.headingRad = normalizeRadians(Math.atan2(dy, dx));
+    // Slight Y drift for realism (small figure-8 wobble)
+    const rawY = Math.sin(phase * 2) * 15;
+
+    // Smooth the position (low-pass to avoid jumps)
+    const smoothingFactor = 0.3;
+    this.state.x = this.state.x + (rawX - this.state.x) * smoothingFactor;
+    this.state.y = this.state.y + (rawY - this.state.y) * smoothingFactor;
+
+    // Smooth heading transition at endpoints
+    const targetHeading = Math.cos(phase) > 0.05 ? 0 : Math.cos(phase) < -0.05 ? Math.PI : this.state.headingRad;
+    this.state.headingRad = targetHeading;
 
     // Speed varies slightly
     const speed = clamp(3.0 + 1.0 * Math.sin(now / 2000), 2.0, 5.0);
@@ -89,12 +90,6 @@ export class TelemetryGenerator {
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
-}
-
-function normalizeRadians(value: number): number {
-  const fullTurn = Math.PI * 2;
-
-  return ((value % fullTurn) + fullTurn) % fullTurn;
 }
 
 function radiansToDegrees(value: number): number {

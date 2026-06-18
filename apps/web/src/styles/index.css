@@ -1,0 +1,12 @@
+/* Design System — barrel import */
+@import './tokens.css';
+@import './base.css';
+@import './layout.css';
+@import './state.css';
+
+/* Component styles */
+@import './components/alarm-info-panel.css';
+@import './components/trust-banner.css';
+@import './components/vitals-panel.css';
+@import './components/pose-view.css';
+@import './components/control-panel.css';

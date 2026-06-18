@@ -1,7 +1,7 @@
 export const scenarioNames = ['live', 'stale', 'drop', 'manual-disconnect', 'alarm'] as const;
 
 export type ScenarioName = (typeof scenarioNames)[number];
-export type AlarmSeverity = 'warning' | 'critical';
+export type AlarmSeverity = 'info' | 'warning' | 'critical';
 
 export interface ScenarioSnapshot {
   current: ScenarioName;
@@ -41,7 +41,8 @@ export class ScenarioController {
   }
 
   setScenario(nextScenario: ScenarioName): ScenarioSnapshot {
-    if (nextScenario === this.snapshot.current) {
+    // alarm 允许重复触发，以支持手动切换告警级别
+    if (nextScenario === this.snapshot.current && nextScenario !== 'alarm') {
       return this.snapshot;
     }
 

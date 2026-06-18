@@ -59,6 +59,10 @@ export class TelemetryMessageRouter {
   }
 
   dispose(): void {
+    this.clearPending();
+  }
+
+  clearPending(): void {
     this.clearFlushTimer();
     this.pendingFrame = null;
     this.pendingReceivedAt = null;

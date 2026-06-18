@@ -52,6 +52,8 @@ function buildDerivedState(source: DerivationSource): Pick<
     connectionState: source.connectionState,
     lastReceiveTime: source.lastReceiveTime,
     now: source.now,
+    reconnectAttempt: source.reconnectAttempt,
+    nextReconnectDelayMs: getReconnectDelay(source.reconnectAttempt),
   });
 
   return {
@@ -136,7 +138,6 @@ export const useTelemetryStore = create<TelemetryStoreState>((set) => ({
     set((state) =>
       createStatePatch(state, {
         connectionState: 'open',
-        reconnectAttempt: 0,
         now,
       }),
     );

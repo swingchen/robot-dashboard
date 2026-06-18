@@ -1,10 +1,11 @@
-import { getReconnectDelay } from '../utils/backoff';
+import { getReconnectDelay, shouldStopReconnecting } from '../utils/backoff';
 
 export type TelemetryWebSocketEvent =
   | { type: 'connecting'; at: number; url: string }
   | { type: 'open'; at: number }
   | { type: 'message'; data: string; receivedAt: number }
   | { type: 'reconnecting'; at: number; attempt: number; delayMs: number }
+  | { type: 'reconnectFailed'; at: number; attempts: number }
   | { type: 'closed'; at: number; code: number; reason: string; wasClean: boolean; manual: boolean }
   | { type: 'error'; at: number };
 
@@ -105,7 +106,8 @@ export class TelemetryWebSocketClient {
   }
 
   private readonly handleOpen = (): void => {
-    this.reconnectAttempt = 0;
+    // Do NOT reset reconnectAttempt here — wait for first message
+    // to prove the data path is truly restored.
     this.emit({
       type: 'open',
       at: Date.now(),
@@ -113,6 +115,8 @@ export class TelemetryWebSocketClient {
   };
 
   private readonly handleMessage = (event: MessageEvent<string>): void => {
+    // First message after reconnection → backoff succeeded, reset counter
+    this.reconnectAttempt = 0;
     this.emit({
       type: 'message',
       data: String(event.data),
@@ -160,6 +164,15 @@ export class TelemetryWebSocketClient {
 
   private scheduleReconnect(now: number, immediate = false): void {
     if (this.reconnectTimer !== null) {
+      return;
+    }
+
+    if (shouldStopReconnecting(this.reconnectAttempt)) {
+      this.emit({
+        type: 'reconnectFailed',
+        at: now,
+        attempts: this.reconnectAttempt,
+      });
       return;
     }
 

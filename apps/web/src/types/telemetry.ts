@@ -14,7 +14,7 @@ export interface MissionState {
 export interface TelemetryAlarm {
   id: string;
   code: string;
-  severity: 'warning' | 'critical';
+  severity: 'info' | 'warning' | 'critical';
   message: string;
   raisedAt: number;
 }
@@ -52,4 +52,8 @@ export interface UiTelemetrySnapshot {
   ageMs: number | null;
   hasData: boolean;
   isFrozen: boolean;
+  /** Reconnection backoff – attempt count (0 = connected / never reconnected) */
+  reconnectAttempt: number;
+  /** Reconnection backoff – next retry delay in ms (0 = not reconnecting) */
+  nextReconnectDelayMs: number;
 }

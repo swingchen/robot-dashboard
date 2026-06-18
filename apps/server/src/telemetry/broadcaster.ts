@@ -21,7 +21,7 @@ export class TelemetryBroadcaster {
 
   private activeInjectedAlarm:
     | {
-      severity: 'warning' | 'critical';
+      severity: 'info' | 'warning' | 'critical';
       raisedAt: number;
     }
     | null = null;
@@ -96,23 +96,48 @@ export class TelemetryBroadcaster {
 
 function withInjectedAlarm(
   frame: TelemetryFrame,
-  severity: 'warning' | 'critical',
-  previous: { severity: 'warning' | 'critical'; raisedAt: number } | null,
+  severity: 'info' | 'warning' | 'critical',
+  previous: { severity: 'info' | 'warning' | 'critical'; raisedAt: number } | null,
 ): TelemetryFrame {
-  const isCritical = severity === 'critical';
   const raisedAt = previous && previous.severity === severity ? previous.raisedAt : frame.ts;
-  const alarm: TelemetryAlarm = {
-    id: isCritical ? 'motor-temp-high' : 'load-camera-obstructed',
-    code: isCritical ? 'MOTOR_OVER_TEMP' : 'E-105',
-    severity,
-    message: isCritical
-      ? 'Drive motor temperature is above the safe threshold.'
-      : 'Load camera visibility is degraded.',
-    raisedAt,
-  };
+
+  const alarms: TelemetryAlarm[] = [];
+
+  if (severity === 'critical') {
+    alarms.push({
+      id: 'motor-temp-high',
+      code: 'MOTOR_OVER_TEMP',
+      severity: 'critical',
+      message: 'Drive motor temperature is above the safe threshold.',
+      raisedAt,
+    });
+  } else if (severity === 'warning') {
+    alarms.push({
+      id: 'load-camera-obstructed',
+      code: 'E-105',
+      severity: 'warning',
+      message: 'Load camera visibility is degraded.',
+      raisedAt,
+    });
+    alarms.push({
+      id: 'battery-low',
+      code: 'E-201',
+      severity: 'info',
+      message: 'Battery below 30% — schedule charging.',
+      raisedAt,
+    });
+  } else {
+    alarms.push({
+      id: 'battery-low',
+      code: 'E-201',
+      severity: 'info',
+      message: 'Battery below 30% — schedule charging.',
+      raisedAt,
+    });
+  }
 
   return {
     ...frame,
-    alarms: [alarm],
+    alarms,
   };
 }

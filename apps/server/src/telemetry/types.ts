@@ -14,7 +14,7 @@ export interface MissionState {
 export interface TelemetryAlarm {
   id: string;
   code: string;
-  severity: 'warning' | 'critical';
+  severity: 'info' | 'warning' | 'critical';
   message: string;
   raisedAt: number;
 }

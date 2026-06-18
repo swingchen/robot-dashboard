@@ -1,0 +1,88 @@
+/* Control Panel Component Styles */
+
+.demo-controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.demo-controls__section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.demo-controls__label {
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-text-secondary);
+}
+
+.demo-controls__buttons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.demo-controls__error {
+  margin-top: var(--space-xs);
+  padding: var(--space-xs) var(--space-sm);
+  border: 1px solid var(--color-severity-error);
+  border-radius: var(--radius-sm);
+  background-color: rgba(244, 67, 54, 0.08);
+  color: var(--color-severity-error);
+  font-size: var(--font-size-xs);
+}
+
+.demo-controls__status {
+  margin-top: var(--space-xs);
+  font-size: var(--font-size-xs);
+  color: var(--color-text-secondary);
+}
+
+.demo-btn {
+  padding: var(--space-sm) var(--space-md);
+  background-color: var(--color-trust-reconnecting);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.demo-btn:hover:not(:disabled) {
+  background-color: #1976d2;
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+.demo-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.demo-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.demo-btn--alarm {
+  background-color: var(--color-severity-warning);
+}
+
+.demo-btn--alarm:hover:not(:disabled) {
+  background-color: #f57c00;
+}
+
+@media (max-width: 768px) {
+  .demo-controls__buttons {
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  .demo-btn {
+    flex: 1;
+    min-width: 100px;
+  }
+}

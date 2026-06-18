@@ -46,8 +46,11 @@ export function TrustBanner({ snapshot, ageMs }: TrustBannerProps) {
         return 'Real-time data flowing';
       case 'stale':
         return `Last update ${formatDuration(ageMs)} ago`;
-      case 'reconnecting':
-        return 'Auto-reconnecting...';
+      case 'reconnecting': {
+        const attempt = snapshot.reconnectAttempt;
+        const delaySec = (snapshot.nextReconnectDelayMs / 1000).toFixed(0);
+        return `Retry #${attempt} in ${delaySec}s`;
+      }
       case 'disconnected':
         return 'Using last-known values';
       case 'no-data-yet':

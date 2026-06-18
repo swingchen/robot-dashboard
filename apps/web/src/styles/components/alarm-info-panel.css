@@ -1,0 +1,185 @@
+/* Alarm Info Panel — additional styles (base alarm classes are in layout.css) */
+
+/* Alarm item internal structure */
+.alarm-item__icon {
+  font-size: var(--font-size-lg);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.alarm-item__content {
+  flex: 1;
+  min-width: 0;
+}
+
+.alarm-item__header-row {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-xs);
+}
+
+.alarm-item__code {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-primary);
+}
+
+.alarm-item__severity {
+  font-size: var(--font-size-xs);
+  padding: 1px 6px;
+  border-radius: var(--radius-sm);
+  text-transform: uppercase;
+  font-weight: var(--font-weight-medium);
+}
+
+.alarm-item__severity--info {
+  background-color: rgba(33, 150, 243, 0.12);
+  color: var(--color-severity-info);
+}
+
+.alarm-item__severity--warning {
+  background-color: rgba(255, 152, 0, 0.15);
+  color: var(--color-severity-warning);
+}
+
+.alarm-item__severity--critical {
+  background-color: rgba(244, 67, 54, 0.15);
+  color: var(--color-severity-error);
+}
+
+.alarm-item__message {
+  font-size: var(--font-size-sm);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-xs);
+}
+
+.alarm-item__time {
+  font-size: var(--font-size-xs);
+  color: var(--color-text-tertiary);
+}
+
+.alarm-item__actions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* Acknowledge buttons */
+.alarm-ack-btn {
+  padding: var(--space-xs) var(--space-sm);
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-medium);
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.alarm-ack-btn--all {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+}
+
+.alarm-ack-btn--all:hover {
+  background-color: var(--color-border);
+  color: var(--color-text-primary);
+}
+
+.alarm-ack-btn--info {
+  background-color: rgba(33, 150, 243, 0.08);
+  color: var(--color-severity-info);
+}
+
+.alarm-ack-btn--info:hover {
+  background-color: rgba(33, 150, 243, 0.16);
+}
+
+.alarm-ack-btn--warning {
+  background-color: rgba(255, 152, 0, 0.1);
+  color: var(--color-severity-warning);
+}
+
+.alarm-ack-btn--warning:hover {
+  background-color: rgba(255, 152, 0, 0.2);
+}
+
+.alarm-ack-btn--critical {
+  background-color: rgba(244, 67, 54, 0.1);
+  color: var(--color-severity-error);
+}
+
+.alarm-ack-btn--critical:hover {
+  background-color: rgba(244, 67, 54, 0.2);
+}
+
+/* Critical alarm overlay */
+.alarm-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-index-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.alarm-overlay__card {
+  width: 90%;
+  max-width: 480px;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: var(--space-lg);
+  background-color: var(--color-bg-primary);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.alarm-overlay__card--critical {
+  border: 2px solid var(--color-severity-error);
+}
+
+.alarm-overlay__title {
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-md);
+}
+
+.alarm-overlay__title--critical {
+  color: var(--color-severity-error);
+}
+
+.alarm-overlay__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* Large overlay ack buttons */
+.alarm-ack-btn--large {
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  min-width: 80px;
+}
+
+.alarm-ack-btn--confirm {
+  background-color: var(--color-severity-error);
+  color: #fff;
+  padding: var(--space-sm) var(--space-lg);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  min-width: 130px;
+}
+
+.alarm-ack-btn--confirm:hover {
+  background-color: #d32f2f;
+}
+
+.alarm-ack-btn--cancel {
+  background-color: var(--color-bg-tertiary);
+  color: var(--color-text-secondary);
+  padding: var(--space-sm) var(--space-md);
+  font-size: var(--font-size-sm);
+}

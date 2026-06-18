@@ -82,22 +82,42 @@ export function PoseView({ pose, isFrozen }: PoseViewProps) {
                 ({pose.x.toFixed(0)}m, {pose.y.toFixed(0)}m)
               </text>
 
-              {/* Vehicle body - rectangle, larger for visibility */}
+              {/* Vehicle body */}
               <g transform={`translate(${vehicleX}, ${vehicleY}) rotate(${headingDeg})`}>
+                <defs>
+                  <linearGradient id="bodyGrad" x1="0" y1="0" x2="1" y2="0">
+                    <stop offset="0%" stopColor={vehicleColor} stopOpacity="0.85" />
+                    <stop offset="100%" stopColor={vehicleColor} stopOpacity="1" />
+                  </linearGradient>
+                </defs>
+
+                {/* Chassis shadow */}
+                <rect x="-22" y="-32" width="44" height="64" rx="8" ry="8" fill="rgba(0,0,0,0.15)" />
+
                 {/* Main body */}
-                <rect x="-25" y="-40" width="50" height="80" fill={vehicleColor} stroke={borderColor} strokeWidth="3" />
+                <rect x="-20" y="-30" width="40" height="60" rx="7" ry="7" fill="url(#bodyGrad)" stroke={borderColor} strokeWidth="2.5" />
 
-                {/* Front triangle (direction indicator) */}
-                <polygon points="0,-40 -15,-20 15,-20" fill="white" />
+                {/* Cabin / operator area (darker rectangle on top) */}
+                <rect x="-12" y="-10" width="24" height="28" rx="4" ry="4" fill={borderColor} opacity="0.5" />
 
-                {/* Center circle */}
-                <circle cx="0" cy="0" r="8" fill={borderColor} />
+                {/* Fork arms at front (-Y direction is forward) */}
+                <rect x="-16" y="-38" width="5" height="12" rx="2" fill="#888" stroke="#666" strokeWidth="1" />
+                <rect x="11" y="-38" width="5" height="12" rx="2" fill="#888" stroke="#666" strokeWidth="1" />
 
-                {/* Wheels indicators */}
-                <line x1="-20" y1="-35" x2="-20" y2="-10" stroke={borderColor} strokeWidth="2" />
-                <line x1="20" y1="-35" x2="20" y2="-10" stroke={borderColor} strokeWidth="2" />
-                <line x1="-20" y1="10" x2="-20" y2="35" stroke={borderColor} strokeWidth="2" />
-                <line x1="20" y1="10" x2="20" y2="35" stroke={borderColor} strokeWidth="2" />
+                {/* Fork crossbar */}
+                <rect x="-17" y="-40" width="34" height="4" rx="1" fill="#999" />
+
+                {/* Direction arrow (forward indicator) */}
+                <polygon points="0,-45 -8,-38 0,-35 8,-38" fill="#ffc107" opacity="0.95" />
+
+                {/* Center hub */}
+                <circle cx="0" cy="0" r="5" fill="white" opacity="0.6" />
+
+                {/* Wheels */}
+                <rect x="-22" y="-28" width="4" height="10" rx="2" fill="#333" />
+                <rect x="18" y="-28" width="4" height="10" rx="2" fill="#333" />
+                <rect x="-22" y="18" width="4" height="10" rx="2" fill="#333" />
+                <rect x="18" y="18" width="4" height="10" rx="2" fill="#333" />
               </g>
             </g>
           )}

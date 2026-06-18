@@ -51,6 +51,8 @@ interface BuildUiSnapshotOptions {
   connectionState: ConnectionState;
   lastReceiveTime: number | null;
   now: number;
+  reconnectAttempt: number;
+  nextReconnectDelayMs: number;
   thresholdMs?: number;
 }
 
@@ -60,6 +62,8 @@ export function buildUiSnapshot({
   connectionState,
   lastReceiveTime,
   now,
+  reconnectAttempt,
+  nextReconnectDelayMs,
   thresholdMs = STALE_THRESHOLD_MS,
 }: BuildUiSnapshotOptions): UiTelemetrySnapshot {
   const freshnessState = deriveFreshnessState(lastReceiveTime, now, thresholdMs);
@@ -79,5 +83,7 @@ export function buildUiSnapshot({
     ageMs: lastReceiveTime === null ? null : Math.max(0, now - lastReceiveTime),
     hasData: rawFrame !== null,
     isFrozen: rawFrame !== null && trustState !== 'live',
+    reconnectAttempt,
+    nextReconnectDelayMs,
   };
 }

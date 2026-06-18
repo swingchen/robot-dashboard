@@ -13,7 +13,7 @@ const SEQUENCE: readonly FaultStep[] = [
   { kind: 'scenario', scenario: 'live', durationMs: 7000 },
   { kind: 'alarm', severity: 'warning', durationMs: 5500 },
   { kind: 'scenario', scenario: 'live', durationMs: 7000 },
-  { kind: 'scenario', scenario: 'drop', durationMs: 2500 },
+  { kind: 'scenario', scenario: 'drop', durationMs: 5000 },
   { kind: 'scenario', scenario: 'live', durationMs: 8000 },
   { kind: 'alarm', severity: 'critical', durationMs: 6000 },
   { kind: 'scenario', scenario: 'stale', durationMs: 4500 },
@@ -25,6 +25,8 @@ export class AutoFaultScheduler {
 
   private stepIndex = 0;
 
+  private stopped = false;
+
   constructor(private readonly options: AutoFaultSchedulerOptions) {}
 
   start(): void {
@@ -32,18 +34,22 @@ export class AutoFaultScheduler {
       return;
     }
 
+    this.stopped = false;
     this.stepIndex = 0;
     console.log('[auto-fault] scheduler started');
     this.runCurrentStep();
   }
 
   stop(): void {
-    if (!this.timer) {
-      return;
+    this.stopped = true;
+    if (this.timer) {
+      clearTimeout(this.timer);
+      this.timer = undefined;
     }
+  }
 
-    clearTimeout(this.timer);
-    this.timer = undefined;
+  isRunning(): boolean {
+    return this.timer !== undefined;
   }
 
   private runCurrentStep(): void {
@@ -66,6 +72,7 @@ export class AutoFaultScheduler {
 
     this.timer = setTimeout(() => {
       this.timer = undefined;
+      if (this.stopped) return;
       this.stepIndex = (this.stepIndex + 1) % SEQUENCE.length;
       this.runCurrentStep();
     }, step.durationMs);

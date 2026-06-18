@@ -30,7 +30,15 @@ const autoFaultScheduler = new AutoFaultScheduler({
 
 app.use(cors());
 app.use(express.json());
-app.use('/api', createScenarioControlRouter(scenarioController, telemetryBroadcaster));
+app.use(
+  '/api',
+  createScenarioControlRouter(
+    scenarioController,
+    telemetryBroadcaster,
+    autoFaultScheduler,
+    AUTO_FAULTS_ENABLED,
+  ),
+);
 
 app.get('/health', (_request, response) => {
   response.json({
