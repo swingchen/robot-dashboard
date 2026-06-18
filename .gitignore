@@ -1,3 +1,4 @@
 node_modules
 dist
-.DS_Storedoc/
+.DS_Store
+doc/
