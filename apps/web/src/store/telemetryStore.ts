@@ -30,7 +30,6 @@ interface TelemetryActions {
   markConnected: (now?: number) => void;
   markReconnecting: (now?: number) => void;
   markDisconnected: (now?: number) => void;
-  resetState: (now?: number) => void;
 }
 
 export type TelemetryStoreState = TelemetryStateShape & TelemetryActions;
@@ -157,9 +156,5 @@ export const useTelemetryStore = create<TelemetryStoreState>((set) => ({
         now,
       }),
     );
-  },
-
-  resetState: (now = Date.now()) => {
-    set(() => createInitialState(now));
   },
 }));

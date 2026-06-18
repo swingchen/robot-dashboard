@@ -1,3 +1,5 @@
+// ⚠️ KEEP IN SYNC with apps/web/src/types/telemetry.ts
+// If you change these shared types, update both files.
 export interface Pose {
   x: number;
   y: number;

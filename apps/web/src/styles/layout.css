@@ -106,8 +106,6 @@
 
 /* PoseView - styles in pose-view.css */
 
-/* PoseView - styles in pose-view.css */
-
 /* Left Column: Alarm Info + Vitals side by side vertically */
 
 .left-column {
@@ -176,10 +174,8 @@
 }
 
 /* Column positioning */
-.alarms-left,
-.vitals-left {
-  grid-column: 1;
-}
+/* .alarms-left and .vitals-left are inside .left-column (flex),
+   so grid-column/grid-row do not apply here. */
 
 .pose-panel-center,
 .controls-right {
@@ -190,8 +186,6 @@
 
 .alarms-left {
   position: relative;
-  grid-column: 1;
-  grid-row: 2;
   flex-shrink: 0;
   width: 100%;
   min-height: 0;
@@ -206,8 +200,6 @@
 }
 
 .vitals-left {
-  grid-column: 1;
-  grid-row: 3;
   flex-shrink: 0;
   width: 100%;
 }

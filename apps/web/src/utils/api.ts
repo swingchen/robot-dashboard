@@ -1,10 +1,17 @@
-const SCENARIO_API_BASE = `${window.location.protocol}//${window.location.hostname}:3001/api`;
+const DEFAULT_API_PORT = 3001;
+
+export function getApiBaseUrl(): string {
+  return (
+    import.meta.env.VITE_API_BASE_URL ??
+    `//${window.location.hostname}:${DEFAULT_API_PORT}/api`
+  );
+}
 
 async function apiRequest<T>(
   path: string,
   options: RequestInit = {},
 ): Promise<T> {
-  const url = `${SCENARIO_API_BASE}${path}`;
+  const url = `${getApiBaseUrl()}${path}`;
   const response = await fetch(url, {
     headers: { 'Content-Type': 'application/json' },
     ...options,

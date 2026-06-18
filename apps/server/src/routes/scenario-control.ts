@@ -4,7 +4,6 @@ import {
   isScenarioName,
   scenarioNames,
   type ScenarioController,
-  type ScenarioName,
 } from '../scenarios/controller.js';
 
 interface ScenarioRequestBody {
@@ -35,7 +34,7 @@ export function createScenarioControlRouter(
       return;
     }
 
-    const snapshot = controller.setScenario(scenario satisfies ScenarioName ? scenario : 'live');
+    const snapshot = controller.setScenario(scenario);
 
     response.json({
       scenario: snapshot.current,

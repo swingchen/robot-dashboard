@@ -2,6 +2,9 @@
   "name": "robot-dashboard",
   "private": true,
   "version": "0.1.0",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "dev": "concurrently -n web,server -c blue,green \"npm run dev:web\" \"npm run dev:server\"",
     "dev:web": "npm --prefix apps/web run dev",

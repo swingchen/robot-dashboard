@@ -2,10 +2,9 @@ import { UiTelemetrySnapshot } from '../types/telemetry';
 
 interface TrustBannerProps {
   snapshot: UiTelemetrySnapshot;
-  ageMs: number | null;
 }
 
-export function TrustBanner({ snapshot, ageMs }: TrustBannerProps) {
+export function TrustBanner({ snapshot }: TrustBannerProps) {
   const getTrustStateClass = (): string => {
     switch (snapshot.trustState) {
       case 'live':
@@ -44,7 +43,7 @@ export function TrustBanner({ snapshot, ageMs }: TrustBannerProps) {
       case 'live':
         return 'Real-time data flowing';
       case 'stale':
-        return `Last update ${formatDuration(ageMs)} ago`;
+        return `Last update ${formatDuration(snapshot.ageMs)} ago`;
       case 'reconnecting': {
         const attempt = snapshot.reconnectAttempt;
         const delaySec = (snapshot.nextReconnectDelayMs / 1000).toFixed(0);

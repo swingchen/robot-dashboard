@@ -104,7 +104,6 @@
   .pose-info-value {
     font-size: 16px;
   }
-}
 
   .pose-info-item:nth-child(3) {
     grid-column: 1 / -1;

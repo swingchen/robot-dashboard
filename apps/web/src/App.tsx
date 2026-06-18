@@ -2,14 +2,8 @@ import { useEffect, useRef } from 'react';
 import { TelemetryMessageRouter, UI_COMMIT_INTERVAL_MS } from './services/messageRouter';
 import { TelemetryWebSocketClient, getTelemetryWebSocketUrl } from './services/websocketClient';
 import { useTelemetryStore } from './store/telemetryStore';
-import './styles/tokens.css';
-import './styles/base.css';
-import './styles/layout.css';
-import './styles/components/trust-banner.css';
-import './styles/components/vitals-panel.css';
-import './styles/components/pose-view.css';
-import './styles/components/alarm-info-panel.css';
-import './styles/components/control-panel.css';
+import './styles/index.css';
+import { getApiBaseUrl } from './utils/api';
 import { AlarmInfoPanel } from './components/AlarmInfoPanel';
 import { TrustBanner } from './components/TrustBanner';
 import { PoseView } from './components/PoseView';
@@ -28,14 +22,13 @@ export default function App() {
   const messageRouterRef = useRef<TelemetryMessageRouter | null>(null);
   const isManualDisconnectRef = useRef(false);
   const streamUrlRef = useRef(getTelemetryWebSocketUrl());
-
-  const apiBase = `//${window.location.hostname}:3001/api`;
+  const apiBaseRef = useRef(getApiBaseUrl());
 
   const handleConnect = async (): Promise<void> => {
     // Reset server to live scenario and ensure stream is running
     try {
-      await fetch(`${apiBase}/scenario/reset`, { method: 'POST' });
-      await fetch(`${apiBase}/stream/resume`, { method: 'POST' });
+      await fetch(`${apiBaseRef.current}/scenario/reset`, { method: 'POST' });
+      await fetch(`${apiBaseRef.current}/stream/resume`, { method: 'POST' });
     } catch (err) {
       console.warn('[connect] API call failed:', err);
     }
@@ -122,10 +115,7 @@ export default function App() {
         <div className="dashboard-grid">
           {/* TrustBanner - Full Width */}
           <div className="panel trust-banner-wrapper">
-            <TrustBanner
-              snapshot={snapshot}
-              ageMs={snapshot.ageMs}
-            />
+            <TrustBanner snapshot={snapshot} />
           </div>
 
           {/* Left Column: Alarm Info + Vitals, 1:1 */}
