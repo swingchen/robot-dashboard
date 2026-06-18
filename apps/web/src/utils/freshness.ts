@@ -7,7 +7,7 @@ import type {
   UiTelemetrySnapshot,
 } from '../types/telemetry';
 
-export const STALE_THRESHOLD_MS = 2500;
+const STALE_THRESHOLD_MS = 2500;
 
 export function deriveFreshnessState(
   lastReceiveTime: number | null,

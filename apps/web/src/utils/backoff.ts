@@ -1,6 +1,6 @@
-export const RECONNECT_BASE_MS = 1000;
-export const RECONNECT_MAX_MS = 30000;
-export const RECONNECT_MAX_ATTEMPTS = 10;
+const RECONNECT_BASE_MS = 1000;
+const RECONNECT_MAX_MS = 30000;
+const RECONNECT_MAX_ATTEMPTS = 10;
 
 export function getReconnectDelay(
   attempt: number,
