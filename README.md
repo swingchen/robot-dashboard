@@ -12,7 +12,7 @@ apps/
       components/   AlarmInfoPanel, TrustBanner, PoseView, VitalsPanel, ControlPanel
       store/        Zustand telemetry store with UI snapshot batching
       services/     WebSocket client (auto-reconnect + backoff), message router
-      styles/       CSS tokens → base → layout → state → per-component CSS
+      styles/       CSS tokens → base → layout → per-component CSS
       utils/        Backoff strategy, freshness/trust-state derivation
 ```
 
@@ -22,7 +22,6 @@ apps/
 tokens.css    Design variables (colors, spacing, typography, shadows, z-index)
 base.css      Reset + base element styling
 layout.css    Grid, panel containers, responsive breakpoints (no component styles)
-state.css     Trust-state colors, animations, frozen/disconnected indicators
 components/   One CSS file per component — self-contained, no cross-dependencies
 ```
 
